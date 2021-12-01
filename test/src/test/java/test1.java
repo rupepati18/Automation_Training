@@ -17,7 +17,7 @@ public class test1 {
         driver.manage().window().maximize();
     }
 
-    String calculate_female(String n1, String n3, String n4)
+    String calculate(String n1,String n2, String n3, String n4)
     {
         WebElement element1 = driver.findElement(By.id("cage"));
         element1.clear();
@@ -28,34 +28,19 @@ public class test1 {
         WebElement element4 = driver.findElement(By.id("ckg"));
         element4.clear();
         element4.sendKeys(n4);
-
-        WebElement element2 = driver.findElement(By.xpath("//label[@for =\"csex2\"]"));
+        WebElement element2;
+        if(n2 == "Male")
+            element2 = driver.findElement(By.xpath("//label[@for =\"csex1\"]"));
+        else
+        element2 = driver.findElement(By.xpath("//label[@for =\"csex2\"]"));
         element2.click();
+
+
 
         WebElement calculate = driver.findElement(By.xpath("//input[@value =\"Calculate\"]"));
         calculate.click();
-        String Actual_Result_Female = driver.findElement(By.xpath("//div[@style = \"margin-top:5px;\"]/b")).getText().trim();
-        return Actual_Result_Female;
-    }
-    String calculate_male(String n1, String n3, String n4)
-    {
-        WebElement element1 = driver.findElement(By.id("cage"));
-        element1.clear();
-        element1.sendKeys(n1);
-        WebElement element3 = driver.findElement(By.id("cheightmeter"));
-        element3.clear();
-        element3.sendKeys(n3);
-        WebElement element4 = driver.findElement(By.id("ckg"));
-        element4.clear();
-        element4.sendKeys(n4);
-
-        WebElement element2 = driver.findElement(By.xpath("//label[@for =\"csex1\"]"));
-        element2.click();
-
-        WebElement calculate = driver.findElement(By.xpath("//input[@value =\"Calculate\"]"));
-        calculate.click();
-        String Actual_Result_Male = driver.findElement(By.xpath("//div[@style = \"margin-top:5px;\"]/b")).getText().trim();
-        return Actual_Result_Male;
+        String Actual_Result = driver.findElement(By.xpath("//div[@style = \"margin-top:5px;\"]/b")).getText().trim();
+        return Actual_Result;
     }
 
     void close_driver()
@@ -67,11 +52,9 @@ public class test1 {
     @Test
     public static void main(String args[])
     {
-       // System.out.println("Hello");
-       // System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         test1 obj = new test1();
         obj.initialize();
-        String Actual_Result = obj.calculate_male("20","180","60");
+        String Actual_Result = obj.calculate("20","Male","180","60");
 
         System.out.println(Actual_Result);
         if(Actual_Result.equals("BMI = 18.5 kg/m2"))
@@ -79,14 +62,14 @@ public class test1 {
         else
             System.out.println(("Fail"));
 
-        Actual_Result = obj.calculate_female("35","160","55");
+        Actual_Result = obj.calculate("35","Female","160","55");
       System.out.println(Actual_Result);
         if(Actual_Result.equals("BMI = 21.5 kg/m2"))
             System.out.println("Pass");
         else
             System.out.println(("Fail"));
 
-        Actual_Result = obj.calculate_male("50","175","65");
+        Actual_Result = obj.calculate("50","Male","175","65");
         System.out.println(Actual_Result);
         if(Actual_Result.equals("BMI = 21.2 kg/m2"))
             System.out.println("Pass");
@@ -94,7 +77,7 @@ public class test1 {
             System.out.println(("Fail"));
 
 
-        Actual_Result = obj.calculate_female("45","150","52");
+        Actual_Result = obj.calculate("45","Female","150","52");
         System.out.println(Actual_Result);
         if(Actual_Result.equals("BMI = 23.1 kg/m2"))
             System.out.println("Pass");
